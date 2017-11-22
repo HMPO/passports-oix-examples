@@ -1,0 +1,5 @@
+{
+  "name": "OIX examples",
+  "description": "OIX examples",
+  "image": "heroku/nodejs"
+}

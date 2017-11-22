@@ -1,0 +1,25 @@
+{
+  "name": "passports-oix-examples",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "true",
+  },
+  "engines": {
+    "node": "6.x.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UKHomeOffice/passports-oix-examples.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/UKHomeOffice/passports-oix-examples/issues"
+  },
+  "homepage": "https://github.com/UKHomeOffice/passports-oix-examples#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
