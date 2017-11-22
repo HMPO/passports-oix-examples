@@ -39,6 +39,7 @@ app.get('/PHOTOSLW', (req, res, next) => {
 app.get('/PHOTOBDY', (req, res, next) => {
     sendHeader(res);
     sendMime(res);
+    res.flush();
     setTimeout(() => {
         sendData(res, 1);
     }, 40000);
