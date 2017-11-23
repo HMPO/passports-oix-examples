@@ -66,12 +66,8 @@ app.get('/PHOTOJWT', (req, res, next) => {
 
         sendHeader(res);
         sendMime(res);
-        sendData(res, 2);
-        res.flush();
-        setTimeout(() => {
-            sendData(res, 1);
-            res.end();
-        }, 40000);
+        sendData(res, 1);
+        res.end();
     });
 });
 
