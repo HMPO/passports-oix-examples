@@ -53,7 +53,7 @@ app.get('/PHOTOBDY', (req, res, next) => {
 app.get('/PHOTOJWT', (req, res, next) => {
     let authHeader = req.header('authorization');
     let match = /^Bearer (.*)$/.exec(authHeader);
-    let token = match[1];
+    let token = match && match[1];
 
     if (!token) return res.status(500).send('No token ' + authHeader);
 
@@ -61,7 +61,7 @@ app.get('/PHOTOJWT', (req, res, next) => {
     jwt.verify(token, cert, {
         issuer: 'HMPO'
     }, (err, decoded) => {
-        if (err) return res.status(403).send('Bad JWT token' + token);
+        if (err) return res.status(403).send('Bad JWT token ' + token);
         res.set('X_JWT_RAW', JSON.stringify(decoded));
 
         sendHeader(res);
