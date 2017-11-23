@@ -3,6 +3,8 @@
 const PORT = process.env.PORT || 5000;
 
 const express = require('express');
+const fs = require('fs');
+const jwt = require('jsonwebtoken');
 
 let app = new express();
 
@@ -47,6 +49,32 @@ app.get('/PHOTOBDY', (req, res, next) => {
         res.end();
     }, 40000);
 });
+
+app.get('/PHOTOJWT', (req, res, next) => {
+    let authHeader = req.header('authorization');
+    let match = /^Bearer (.*)$/.exec(authHeader);
+    let token = match[1];
+
+    if (!token) return res.status(500).send('No token ' + authHeader);
+
+    let cert = fs.readFileSync(__dirname + '/oix-dev.key.pub');
+    jwt.verify(token, cert, {
+        issuer: 'HMPO'
+    }, (err, decoded) => {
+        if (err) return res.status(403).send('Bad JWT token' + token);
+        res.set('X_JWT_RAW', JSON.stringify(decoded));
+
+        sendHeader(res);
+        sendMime(res);
+        sendData(res, 2);
+        res.flush();
+        setTimeout(() => {
+            sendData(res, 1);
+            res.end();
+        }, 40000);
+    });
+});
+
 
 app.listen(PORT);
 
