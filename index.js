@@ -23,6 +23,16 @@ function sendData(res, meg) {
     }
 }
 
+app.get('/PHOTOOK', (req, res, next) => {
+    sendHeader(res);
+    res.sendFile(__dirname + '/f1_pass.jpg');
+});
+
+app.get('/PHOTOBAD', (req, res, next) => {
+    sendHeader(res);
+    res.sendFile(__dirname + '/f4_smiling.jpg');
+});
+
 app.get('/PHOTOBIG', (req, res, next) => {
     sendHeader(res);
     sendMime(res);
@@ -59,15 +69,14 @@ app.get('/PHOTOJWT', (req, res, next) => {
 
     let cert = fs.readFileSync(__dirname + '/photo-code-auth-key.pub');
     jwt.verify(token, cert, {
-        issuer: 'HMPO'
+        issuer: 'HMPO',
+        subject: 'https://bit.ly/2A0ozHh'
     }, (err, decoded) => {
-        if (err) return res.status(403).send('Bad JWT token ' + token);
+        if (err) return res.status(403).send('Bad JWT token ' + token + ' ' + err.message);
         res.set('X_JWT_RAW', JSON.stringify(decoded));
 
         sendHeader(res);
-        sendMime(res);
-        sendData(res, 1);
-        res.end();
+        res.sendFile(__dirname + '/f1_pass.jpg');
     });
 });
 
