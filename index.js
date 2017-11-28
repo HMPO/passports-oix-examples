@@ -57,7 +57,7 @@ app.get('/PHOTOJWT', (req, res, next) => {
 
     if (!token) return res.status(500).send('No token ' + authHeader);
 
-    let cert = fs.readFileSync(__dirname + '/oix-dev.key.pub');
+    let cert = fs.readFileSync(__dirname + '/photo-code-auth-key.pub');
     jwt.verify(token, cert, {
         issuer: 'HMPO'
     }, (err, decoded) => {
