@@ -23,24 +23,29 @@ function sendData(res, meg) {
     }
 }
 
-app.get('/PHOTOOK', (req, res, next) => {
+app.get('/PHOTO_PASS', (req, res, next) => {
     sendHeader(res);
-    res.sendFile(__dirname + '/f1_pass.jpg');
+    res.sendFile(__dirname + '/images/pass.jpg');
 });
 
-app.get('/PHOTOBAD', (req, res, next) => {
+app.get('/PHOTO_OVERRIDE', (req, res, next) => {
     sendHeader(res);
-    res.sendFile(__dirname + '/f4_smiling.jpg');
+    res.sendFile(__dirname + '/images/override.jpg');
 });
 
-app.get('/PHOTOBIG', (req, res, next) => {
+app.get('/PHOTO_FAIL', (req, res, next) => {
+    sendHeader(res);
+    res.sendFile(__dirname + '/images/fail.jpg');
+});
+
+app.get('/PHOTO_BIG', (req, res, next) => {
     sendHeader(res);
     sendMime(res);
     sendData(res, 11);
     res.end();
 });
 
-app.get('/PHOTOSLW', (req, res, next) => {
+app.get('/PHOTO_SLW', (req, res, next) => {
     setTimeout(() => {
         sendHeader(res);
         sendMime(res);
@@ -49,7 +54,7 @@ app.get('/PHOTOSLW', (req, res, next) => {
     }, 40000);
 });
 
-app.get('/PHOTOBDY', (req, res, next) => {
+app.get('/PHOTO_BDY', (req, res, next) => {
     sendHeader(res);
     sendMime(res);
     sendData(res, 2);
@@ -60,7 +65,7 @@ app.get('/PHOTOBDY', (req, res, next) => {
     }, 40000);
 });
 
-app.get('/PHOTOJWT', (req, res, next) => {
+app.get('/PHOTO_JWT', (req, res, next) => {
     let authHeader = req.header('authorization');
     let match = /^Bearer (.*)$/.exec(authHeader);
     let token = match && match[1];
@@ -76,7 +81,7 @@ app.get('/PHOTOJWT', (req, res, next) => {
         res.set('X_JWT_RAW', JSON.stringify(decoded));
 
         sendHeader(res);
-        res.sendFile(__dirname + '/f1_pass.jpg');
+        res.sendFile(__dirname + '/images/pass.jpg');
     });
 });
 
