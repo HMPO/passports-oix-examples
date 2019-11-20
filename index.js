@@ -33,6 +33,11 @@ app.get('/PHOTO_EYES', (req, res, next) => {
     res.sendFile(__dirname + '/images/photo-eyes-closed.jpg');
 });
 
+app.get('/PHOTO_BACK', (req, res, next) => {
+    sendHeader(res);
+    res.sendFile(__dirname + '/images/background-issue.jpg');
+});
+
 app.get('/PHOTO_OVERRIDE', (req, res, next) => {
     sendHeader(res);
     res.sendFile(__dirname + '/images/override.jpg');
