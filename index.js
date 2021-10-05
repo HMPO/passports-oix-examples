@@ -85,7 +85,7 @@ app.get('/PHOTO_JWT', (req, res, next) => {
     let cert = fs.readFileSync(__dirname + '/photo-code-auth-key.pub');
     jwt.verify(token, cert, {
         issuer: 'HMPO',
-        subject: 'https://bit.ly/2A0ozHh'
+        subject: 'https://bit.ly/2YiXxJn'
     }, (err, decoded) => {
         if (err) return res.status(403).send('Bad JWT token ' + token + ' ' + err.message);
         res.set('X_JWT_RAW', JSON.stringify(decoded));
