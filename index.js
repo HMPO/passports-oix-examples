@@ -48,6 +48,11 @@ app.get('/PHOTO_FAIL', (req, res, next) => {
     res.sendFile(__dirname + '/images/fail.jpg');
 });
 
+app.get('/PHOTO_COLOR', (req, res, next) => {
+    sendHeader(res);
+    res.sendFile(__dirname + '/images/unnatural-colors.jpg');
+});
+
 app.get('/PHOTO_BIG', (req, res, next) => {
     sendHeader(res);
     sendMime(res);
