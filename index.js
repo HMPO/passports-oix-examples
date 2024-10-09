@@ -1,15 +1,18 @@
-'use strict';
+import express from 'express';
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+import jsonwebtoken from 'jsonwebtoken';
 
-const PORT = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 
-const express = require('express');
-const fs = require('fs');
-const jwt = require('jsonwebtoken');
+const app = express();
 
-let app = new express();
-
-function sendHeader(res) {
+function sendContentType(res) {
     res.set('Content-Type', 'image/jpeg');
+}
+
+function sendFile(res, filePath) {
+    res.sendFile(path.resolve(`./${filePath}`));
 }
 
 function sendMime(res) {
@@ -23,83 +26,83 @@ function sendData(res, meg) {
     }
 }
 
-app.get('/PHOTO_PASS', (req, res, next) => {
-    sendHeader(res);
-    res.sendFile(__dirname + '/images/pass.jpg');
+app.get('/PHOTO_PASS', (req, res) => {
+    sendContentType(res);
+    sendFile(res, 'images/pass.jpg');
 });
 
-app.get('/PHOTO_EYES', (req, res, next) => {
-    sendHeader(res);
-    res.sendFile(__dirname + '/images/photo-eyes-closed.jpg');
+app.get('/PHOTO_EYES', (req, res) => {
+    sendContentType(res);
+    sendFile(res, 'images/photo-eyes-closed.jpg');
 });
 
-app.get('/PHOTO_BACK', (req, res, next) => {
-    sendHeader(res);
-    res.sendFile(__dirname + '/images/background-issue.jpg');
+app.get('/PHOTO_BACK', (req, res) => {
+    sendContentType(res);
+    sendFile(res, 'images/background-issue.jpg');
 });
 
-app.get('/PHOTO_OVERRIDE', (req, res, next) => {
-    sendHeader(res);
-    res.sendFile(__dirname + '/images/override.jpg');
+app.get('/PHOTO_OVERRIDE', (req, res) => {
+    sendContentType(res);
+    sendFile(res, 'images/override.jpg');
 });
 
-app.get('/PHOTO_FAIL', (req, res, next) => {
-    sendHeader(res);
-    res.sendFile(__dirname + '/images/fail.jpg');
+app.get('/PHOTO_FAIL', (req, res) => {
+    sendContentType(res);
+    sendFile(res, 'images/fail.jpg');
 });
 
-app.get('/PHOTO_COLOR', (req, res, next) => {
-    sendHeader(res);
-    res.sendFile(__dirname + '/images/unnatural-colors.jpg');
+app.get('/PHOTO_COLOR', (req, res) => {
+    sendContentType(res);
+    sendFile(res, 'images/unnatural-colors.jpg');
 });
 
-app.get('/PHOTO_BIG', (req, res, next) => {
-    sendHeader(res);
+app.get('/PHOTO_BIG', (req, res) => {
+    sendContentType(res);
     sendMime(res);
     sendData(res, 11);
     res.end();
 });
 
-app.get('/PHOTO_SLW', (req, res, next) => {
+app.get('/PHOTO_SLW', (req, res) => {
     setTimeout(() => {
-        sendHeader(res);
+        sendContentType(res);
         sendMime(res);
         sendData(res, 1);
         res.end();
     }, 40000);
 });
 
-app.get('/PHOTO_BDY', (req, res, next) => {
-    sendHeader(res);
+app.get('/PHOTO_BDY', (req, res) => {
+    sendContentType(res);
     sendMime(res);
     sendData(res, 2);
-    res.flush();
+    res.flushHeaders();
     setTimeout(() => {
         sendData(res, 1);
         res.end();
     }, 40000);
 });
 
-app.get('/PHOTO_JWT', (req, res, next) => {
-    let authHeader = req.header('authorization');
-    let match = /^Bearer (.*)$/.exec(authHeader);
-    let token = match && match[1];
+app.get('/PHOTO_JWT', async (req, res) => {
+    const authHeader = req.header('Authorization');
+    const match = /^Bearer (.*)$/.exec(authHeader);
+    const token = match && match[1];
 
-    if (!token) return res.status(500).send('No token ' + authHeader);
+    if (!token) return res.status(500).send(`No token ${authHeader}`);
 
-    let cert = fs.readFileSync(__dirname + '/photo-code-auth-key.pub');
-    jwt.verify(token, cert, {
+    const cert = await readFile(path.resolve('./photo-code-auth-key.pub'));
+
+    jsonwebtoken.verify(token, cert, {
         issuer: 'HMPO',
         subject: 'https://bit.ly/2YiXxJn'
     }, (err, decoded) => {
-        if (err) return res.status(403).send('Bad JWT token ' + token + ' ' + err.message);
+        if (err) return res.status(403).send(`Bad JWT token ${token} ${err.message}`);
         res.set('X_JWT_RAW', JSON.stringify(decoded));
 
-        sendHeader(res);
-        res.sendFile(__dirname + '/images/pass.jpg');
+        sendContentType(res);
+        sendFile(res, 'images/pass.jpg');
     });
 });
 
-
-app.listen(PORT);
-
+app.listen(port);
+console.log(`Listening on port ${port}`)

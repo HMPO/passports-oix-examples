@@ -1,5 +1,6 @@
 {
   "name": "OIX examples",
   "description": "OIX examples",
+  "repository": "https://github.com/HMPO/passports-oix-examples",
   "image": "heroku/nodejs"
 }

@@ -1,4 +1,6 @@
-# EditorConfig is awesome: http://EditorConfig.org
+# EditorConfig is awesome: https://editorconfig.org
+
+# top-most EditorConfig file
 root = true
 
 [*]
@@ -9,5 +11,5 @@ indent_style = space
 indent_size = 4
 trim_trailing_whitespace = true
 
-[{package.json,*.yml,.eslintrc}]
+[*.json]
 indent_size = 2
