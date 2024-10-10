@@ -94,7 +94,7 @@ app.get('/PHOTO_JWT', async (req, res) => {
 
     jsonwebtoken.verify(token, cert, {
         issuer: 'HMPO',
-        subject: 'https://bit.ly/2YiXxJn'
+        subject: 'https://bit.ly/4eCi2Cv'
     }, (err, decoded) => {
         if (err) return res.status(403).send(`Bad JWT token ${token} ${err.message}`);
         res.set('X_JWT_RAW', JSON.stringify(decoded));
