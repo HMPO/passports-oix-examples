@@ -46,6 +46,11 @@ app.get('/PHOTO_OVERRIDE', (req, res) => {
     sendFile(res, 'images/override.jpg');
 });
 
+app.get('/CROP_BORDER', (req, res) => {
+    sendContentType(res);
+    sendFile(res, 'images/crop_border.jpg');
+});
+
 app.get('/PHOTO_FAIL', (req, res) => {
     sendContentType(res);
     sendFile(res, 'images/fail.jpg');
